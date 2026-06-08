@@ -1143,12 +1143,16 @@ a { text-decoration: none; color: inherit; }
   justify-content: space-between;
   align-items: center;
   padding: 20px 0;
-  font-size: 12px;
-  color: rgba(255,255,255,0.3);
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.72);
 }
 .footer__links { display: flex; gap: 20px; }
-.footer__links a { color: rgba(255,255,255,0.3); }
-.footer__links a:hover { color: rgba(255,255,255,0.6); }
+.footer__links a {
+  color: rgba(255,255,255,0.78);
+  font-weight: 600;
+}
+.footer__links a:hover { color: #fff; }
 
 /* ===========================
    BACK TO TOP
@@ -1338,17 +1342,18 @@ a { text-decoration: none; color: inherit; }
 }
 
 .about-leasing__lead {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text);
-  line-height: 1.6;
-  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--dark);
+  line-height: 1.55;
+  margin-bottom: 22px;
 }
 .about-leasing__text p {
-  font-size: 15px;
-  color: var(--text-light);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
   line-height: 1.75;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 .about-leasing__law {
   display: inline-flex;
