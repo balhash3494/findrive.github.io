@@ -160,6 +160,289 @@ document.querySelectorAll('.faq__question').forEach(btn => {
 });
 
 /* ===========================
+   FORM — ТЕЛЕФОННАЯ МАСКА + ВАЛИДАЦИЯ
+   =========================== */
+
+/* --- Маска телефона: +7 (XXX) XXX-XX-XX --- */
+const phoneInput = document.getElementById('fieldPhone');
+
+if (phoneInput) {
+
+  // Префикс, который нельзя удалить
+  const PREFIX = '+7 (';
+
+  // Позиции цифр внутри отформатированной строки:
+  // +7 (AAA) BBB-CC-DD
+  // 0123456789...
+  // Цифры стоят на позициях: 4,5,6, 9,10,11, 13,14, 16,17
+  const DIGIT_POSITIONS = [4, 5, 6, 9, 10, 11, 13, 14, 16, 17];
+
+  // Форматируем строку из 0..10 цифр
+  function formatPhone(digits) {
+    let s = PREFIX;
+    if (digits.length > 0) s += digits.slice(0, 3);
+    if (digits.length >= 3) s += ') ';
+    if (digits.length > 3)  s += digits.slice(3, 6);
+    if (digits.length >= 6) s += '-';
+    if (digits.length > 6)  s += digits.slice(6, 8);
+    if (digits.length >= 8) s += '-';
+    if (digits.length > 8)  s += digits.slice(8, 10);
+    return s;
+  }
+
+  // Извлекаем «сырые» цифры (только 10 цифр абонента, без кода страны)
+  function getRawDigits(val) {
+    let d = val.replace(/\D/g, '');
+    if (d.startsWith('7') || d.startsWith('8')) d = d.slice(1);
+    return d.slice(0, 10);
+  }
+
+  // Переводим позицию курсора в отформатированной строке
+  // в индекс «сырой» цифры (0..9)
+  function cursorToDigitIndex(pos) {
+    let count = 0;
+    for (let i = 0; i < pos && i < DIGIT_POSITIONS.length; i++) {
+      if (pos > DIGIT_POSITIONS[i]) count++;
+    }
+    return count;
+  }
+
+  // Переводим индекс «сырой» цифры обратно в позицию курсора
+  function digitIndexToCursor(idx, formatted) {
+    if (idx <= 0) return PREFIX.length;           // перед первой цифрой
+    if (idx >= 10) return formatted.length;       // после последней
+    return DIGIT_POSITIONS[idx];                  // позиция после idx-й цифры
+  }
+
+  // Применяем новое значение и ставим курсор
+  function applyMask(digits, cursorDigitIdx) {
+    const formatted = formatPhone(digits);
+    phoneInput.value = formatted;
+
+    // Курсор: после только что введённой/удалённой цифры
+    const clampedIdx = Math.max(0, Math.min(cursorDigitIdx, digits.length));
+    const cursorPos = clampedIdx === 0
+      ? PREFIX.length
+      : (DIGIT_POSITIONS[clampedIdx - 1] !== undefined ? DIGIT_POSITIONS[clampedIdx - 1] + 1 : formatted.length);
+
+    phoneInput.setSelectionRange(cursorPos, cursorPos);
+
+    // Обратная связь
+    if (digits.length === 10) {
+      setFieldState(phoneInput, 'valid');
+      hideError('errPhone');
+    } else {
+      setFieldState(phoneInput, 'neutral');
+    }
+  }
+
+  // Фокус — ставим PREFIX если пусто
+  phoneInput.addEventListener('focus', () => {
+    if (!phoneInput.value) {
+      phoneInput.value = PREFIX;
+      phoneInput.setSelectionRange(PREFIX.length, PREFIX.length);
+    }
+  });
+
+  // Перехватываем keydown — обрабатываем Backspace / Delete вручную
+  phoneInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') return; // Tab всегда пропускаем
+
+    const val    = phoneInput.value;
+    const selStart = phoneInput.selectionStart;
+    const selEnd   = phoneInput.selectionEnd;
+    const hasSelection = selStart !== selEnd;
+    let digits = getRawDigits(val);
+
+    if (e.key === 'Backspace') {
+      e.preventDefault();
+      if (hasSelection) {
+        // Удаляем все цифры в выделении
+        const dStart = cursorToDigitIndex(selStart);
+        const dEnd   = cursorToDigitIndex(selEnd);
+        digits = digits.slice(0, dStart) + digits.slice(dEnd);
+        applyMask(digits, dStart);
+      } else {
+        // Нет выделения — удаляем цифру слева от курсора
+        // Ищем ближайшую цифру левее позиции курсора
+        let digitIdx = -1;
+        for (let i = DIGIT_POSITIONS.length - 1; i >= 0; i--) {
+          if (DIGIT_POSITIONS[i] < selStart) { digitIdx = i; break; }
+        }
+        if (digitIdx >= 0 && digitIdx < digits.length) {
+          digits = digits.slice(0, digitIdx) + digits.slice(digitIdx + 1);
+          applyMask(digits, digitIdx);
+        } else {
+          // Курсор в PREFIX — не даём уйти левее
+          phoneInput.setSelectionRange(PREFIX.length, PREFIX.length);
+        }
+      }
+      return;
+    }
+
+    if (e.key === 'Delete') {
+      e.preventDefault();
+      if (hasSelection) {
+        const dStart = cursorToDigitIndex(selStart);
+        const dEnd   = cursorToDigitIndex(selEnd);
+        digits = digits.slice(0, dStart) + digits.slice(dEnd);
+        applyMask(digits, dStart);
+      } else {
+        // Удаляем цифру справа от курсора
+        let digitIdx = -1;
+        for (let i = 0; i < DIGIT_POSITIONS.length; i++) {
+          if (DIGIT_POSITIONS[i] >= selStart) { digitIdx = i; break; }
+        }
+        if (digitIdx >= 0 && digitIdx < digits.length) {
+          digits = digits.slice(0, digitIdx) + digits.slice(digitIdx + 1);
+          applyMask(digits, digitIdx);
+        }
+      }
+      return;
+    }
+
+    // Блокируем всё, кроме цифр и навигационных клавиш
+    const navKeys = ['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'];
+    if (navKeys.includes(e.key)) return;
+
+    if (/^\d$/.test(e.key)) {
+      e.preventDefault();
+      if (digits.length >= 10 && !hasSelection) return; // уже полный номер
+
+      // Если есть выделение — сначала удаляем его
+      let insertIdx = cursorToDigitIndex(selStart);
+      if (hasSelection) {
+        const dEnd = cursorToDigitIndex(selEnd);
+        digits = digits.slice(0, insertIdx) + digits.slice(dEnd);
+      }
+      if (digits.length < 10) {
+        digits = digits.slice(0, insertIdx) + e.key + digits.slice(insertIdx);
+        insertIdx += 1;
+      }
+      applyMask(digits, insertIdx);
+      return;
+    }
+
+    // Всё остальное — запрещаем
+    e.preventDefault();
+  });
+
+  // Вставка из буфера обмена
+  phoneInput.addEventListener('paste', (e) => {
+    e.preventDefault();
+    const pasted = (e.clipboardData || window.clipboardData).getData('text');
+    let newDigits = pasted.replace(/\D/g, '');
+    if (newDigits.startsWith('7') || newDigits.startsWith('8')) newDigits = newDigits.slice(1);
+    newDigits = newDigits.slice(0, 10);
+
+    const selStart = phoneInput.selectionStart;
+    const selEnd   = phoneInput.selectionEnd;
+    let existing = getRawDigits(phoneInput.value);
+    const dStart = cursorToDigitIndex(selStart);
+    const dEnd   = cursorToDigitIndex(selEnd);
+    existing = existing.slice(0, dStart) + newDigits + existing.slice(dEnd);
+    existing = existing.slice(0, 10);
+    applyMask(existing, dStart + newDigits.length);
+  });
+
+  // Запрет перемещения курсора в зону PREFIX при клике/перемещении
+  phoneInput.addEventListener('click', () => {
+    const pos = phoneInput.selectionStart;
+    if (pos < PREFIX.length) {
+      phoneInput.setSelectionRange(PREFIX.length, PREFIX.length);
+    }
+  });
+  phoneInput.addEventListener('keyup', (e) => {
+    if (['ArrowLeft','ArrowRight','Home','End'].includes(e.key)) {
+      if (phoneInput.selectionStart < PREFIX.length) {
+        phoneInput.setSelectionRange(PREFIX.length, PREFIX.length);
+      }
+    }
+  });
+
+  // При потере фокуса — проверяем полноту
+  phoneInput.addEventListener('blur', () => {
+    const digits = getRawDigits(phoneInput.value);
+    if (phoneInput.value && phoneInput.value !== PREFIX && digits.length < 10) {
+      setFieldState(phoneInput, 'error');
+      showError('errPhone');
+    } else if (digits.length === 10) {
+      setFieldState(phoneInput, 'valid');
+      hideError('errPhone');
+    } else {
+      phoneInput.value = '';
+      setFieldState(phoneInput, 'neutral');
+    }
+  });
+}
+
+/* --- Валидация Email в реальном времени --- */
+const emailInput = document.getElementById('fieldEmail');
+
+if (emailInput) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  emailInput.addEventListener('blur', () => {
+    const val = emailInput.value.trim();
+    if (val === '') {
+      setFieldState(emailInput, 'neutral');
+      hideError('errEmail');
+      return;
+    }
+    if (!emailRegex.test(val)) {
+      setFieldState(emailInput, 'error');
+      showError('errEmail');
+    } else {
+      setFieldState(emailInput, 'valid');
+      hideError('errEmail');
+    }
+  });
+
+  emailInput.addEventListener('input', () => {
+    const val = emailInput.value.trim();
+    if (emailInput.classList.contains('field--error') && emailRegex.test(val)) {
+      setFieldState(emailInput, 'valid');
+      hideError('errEmail');
+    }
+  });
+}
+
+/* --- Имя — базовая проверка при blur --- */
+const nameInput = document.getElementById('fieldName');
+if (nameInput) {
+  nameInput.addEventListener('blur', () => {
+    if (!nameInput.value.trim()) {
+      setFieldState(nameInput, 'error');
+      showError('errName');
+    } else {
+      setFieldState(nameInput, 'valid');
+      hideError('errName');
+    }
+  });
+  nameInput.addEventListener('input', () => {
+    if (nameInput.value.trim()) {
+      setFieldState(nameInput, 'valid');
+      hideError('errName');
+    }
+  });
+}
+
+/* --- Вспомогательные функции --- */
+function setFieldState(input, state) {
+  input.classList.remove('field--error', 'field--valid');
+  if (state === 'error') input.classList.add('field--error');
+  if (state === 'valid') input.classList.add('field--valid');
+}
+function showError(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.add('visible');
+}
+function hideError(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.remove('visible');
+}
+
+/* ===========================
    FORM — ОТПРАВКА ЧЕРЕЗ FORMSPREE
    ===========================
    НАСТРОЙКА:
@@ -176,36 +459,57 @@ const contactForm = document.getElementById('contactForm');
 
 if (submitBtn) {
   submitBtn.addEventListener('click', async () => {
-    // Валидация обязательных полей
-    const required = contactForm.querySelectorAll('input[required]');
     let valid = true;
-    required.forEach(inp => {
-      if (!inp.value.trim()) {
-        inp.style.borderColor = '#ef4444';
-        valid = false;
-        setTimeout(() => inp.style.borderColor = '', 2500);
-      }
-    });
-    if (!valid) return;
+    const emailRegexFinal = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+    // Проверка имени
+    const nameVal = nameInput ? nameInput.value.trim() : '';
+    if (!nameVal) {
+      setFieldState(nameInput, 'error');
+      showError('errName');
+      valid = false;
+    }
+
+    // Проверка телефона
+    const phoneDigits = phoneInput ? phoneInput.value.replace(/\D/g, '').replace(/^[78]/, '') : '';
+    if (phoneDigits.length < 10) {
+      setFieldState(phoneInput, 'error');
+      showError('errPhone');
+      if (phoneInput && (!phoneInput.value || phoneInput.value === '+7 (')) phoneInput.value = '';
+      valid = false;
+    }
+
+    // Проверка email (если заполнен)
+    const emailVal = emailInput ? emailInput.value.trim() : '';
+    if (emailVal && !emailRegexFinal.test(emailVal)) {
+      setFieldState(emailInput, 'error');
+      showError('errEmail');
+      valid = false;
+    }
+
+    if (!valid) {
+      // Плавно скроллим к первой ошибке
+      const firstError = contactForm.querySelector('.field--error');
+      if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
 
     submitBtn.disabled = true;
     submitBtn.querySelector('.btn__text').style.display = 'none';
     submitBtn.querySelector('.btn__loader').style.display = 'inline';
 
-    // Собираем данные формы
     const data = {
-      name: contactForm.querySelector('input[name="name"]').value,
-      phone: contactForm.querySelector('input[name="phone"]').value,
-      email: contactForm.querySelector('input[name="email"]').value || '—',
+      name: nameVal,
+      phone: phoneInput.value,
+      email: emailVal || '—',
       property_type: contactForm.querySelector('select[name="property_type"]').value || '—',
       price: contactForm.querySelector('input[name="price"]').value || '—',
       message: contactForm.querySelector('textarea[name="message"]').value || '—',
-      _subject: 'Новая заявка с сайта ФинДрайв',
+      _subject: 'Новая заявка с сайта IZHBER Group',
     };
 
     try {
       if (FORMSPREE_ID === 'YOUR_FORMSPREE_ID') {
-        // Демо-режим: форма не настроена — просто показываем успех
         await new Promise(r => setTimeout(r, 1200));
       } else {
         const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
@@ -216,7 +520,6 @@ if (submitBtn) {
         if (!res.ok) throw new Error('Ошибка отправки');
       }
 
-      // Успех
       contactForm.querySelectorAll('.form__row, .form__group, .form__check, button').forEach(el => {
         el.style.display = 'none';
       });

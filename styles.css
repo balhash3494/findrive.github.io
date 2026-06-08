@@ -1558,3 +1558,60 @@ a { text-decoration: none; color: inherit; }
 @media (max-width: 768px) {
   .leasing-diff { grid-template-columns: 1fr; }
 }
+
+/* ===========================
+   FORM FIELD VALIDATION STATES
+   =========================== */
+
+/* Error hint text under the field */
+.field-error {
+  display: block;
+  font-size: 12px;
+  color: #ef4444;
+  margin-top: 5px;
+  padding-left: 2px;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.25s ease, max-height 0.25s ease;
+  pointer-events: none;
+}
+.field-error.visible {
+  opacity: 1;
+  max-height: 32px;
+}
+
+/* Error state — red border + light red background */
+.form__group input.field--error,
+.form__group input[type="tel"].field--error,
+.form__group input[type="email"].field--error {
+  border-color: #ef4444 !important;
+  background-color: #fff5f5;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+/* Valid state — green border */
+.form__group input.field--valid,
+.form__group input[type="tel"].field--valid,
+.form__group input[type="email"].field--valid {
+  border-color: #10b981 !important;
+  background-color: #f0fdf4;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+/* Small icon indicator inside input via wrapper */
+.form__group {
+  position: relative;
+}
+
+/* Animated shake on submit with errors */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+.form__group input.field--error {
+  animation: shake 0.4s ease;
+}
