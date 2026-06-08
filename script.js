@@ -514,8 +514,8 @@ if (submitBtn) {
       } else {
         const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify(data),
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json' },
+          body: new URLSearchParams(data).toString(),
         });
         if (!res.ok) throw new Error('Ошибка отправки');
       }
