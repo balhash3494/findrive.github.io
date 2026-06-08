@@ -451,7 +451,7 @@ function hideError(id) {
    3. Скопируйте ID (например: xpznabcd)
    4. Замените YOUR_FORMSPREE_ID ниже на ваш реальный ID
    =========================== */
-const FORMSPREE_ID = 'YOUR_FORMSPREE_ID'; // ← вставьте сюда ваш ID
+const FORMSPREE_ID = 'meewgrqb';
 
 const submitBtn = document.getElementById('submitBtn');
 const formSuccess = document.getElementById('formSuccess');
