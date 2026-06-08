@@ -1502,13 +1502,12 @@ a { text-decoration: none; color: inherit; }
 .who__note svg { flex-shrink: 0; margin-top: 2px; }
 .who__note strong { color: var(--white); }
 .who__note .who__note-accent {
-  display: inline-block;
-  padding: 2px 9px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #ffffff, #bfdbfe);
-  color: var(--blue-900);
+  display: inline;
+  padding: 0 2px 2px;
+  background: linear-gradient(90deg, rgba(96,165,250,0), rgba(96,165,250,0.45), rgba(96,165,250,0)) 0 100% / 100% 2px no-repeat;
+  color: #ffffff;
   font-weight: 900;
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.28), 0 8px 24px rgba(96,165,250,0.22);
+  text-shadow: 0 0 18px rgba(96,165,250,0.45);
 }
 
 /* ===========================
