@@ -824,7 +824,7 @@
           </div>
           <div class="form__group">
             <label>Стоимость имущества</label>
-            <input type="text" name="price" placeholder="Например: 3 500 000 ₽"/>
+            <input type="text" name="price" id="fieldPrice" inputmode="numeric" pattern="[0-9 ]*" placeholder="Например: 3 500 000 ₽"/>
           </div>
           <div class="form__group">
             <label>Комментарий</label>
@@ -873,11 +873,6 @@
           <span class="logo__text">IZHBER <strong>Group</strong></span>
         </a>
         <p>Профессиональный лизинговый брокер. Помогаем юридическим лицам, ИП и физическим лицам получить выгодные условия лизинга по всей России.</p>
-        <div class="footer__social">
-          <a href="#" aria-label="VK" class="social-link">VK</a>
-          <a href="#" aria-label="Telegram" class="social-link">TG</a>
-          <a href="#" aria-label="WhatsApp" class="social-link">WA</a>
-        </div>
       </div>
       <div class="footer__col">
         <h4>Услуги</h4>

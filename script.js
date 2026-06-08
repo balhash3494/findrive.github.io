@@ -534,6 +534,24 @@ if (submitBtn) {
   });
 }
 
+const priceInput = document.getElementById('fieldPrice');
+if (priceInput) {
+  const formatPriceInput = (value) => {
+    const digits = value.replace(/\D/g, '');
+    return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  };
+
+  priceInput.addEventListener('input', () => {
+    priceInput.value = formatPriceInput(priceInput.value);
+  });
+
+  priceInput.addEventListener('paste', (e) => {
+    e.preventDefault();
+    const text = (e.clipboardData || window.clipboardData).getData('text');
+    priceInput.value = formatPriceInput(text);
+  });
+}
+
 /* ===========================
    SMOOTH SCROLL
    =========================== */

@@ -1108,7 +1108,7 @@ a { text-decoration: none; color: inherit; }
   margin-top: 16px;
   max-width: 280px;
 }
-.footer__social { display: flex; gap: 10px; margin-top: 20px; }
+.footer__social { display: none; }
 .social-link {
   width: 36px; height: 36px;
   border-radius: 8px;
@@ -1509,21 +1509,23 @@ a { text-decoration: none; color: inherit; }
 
 .footer__requisites {
   margin-top: 14px;
-  padding-top: 14px;
-  border-top: 1px solid rgba(255,255,255,0.08);
+  padding: 16px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 8px;
 }
 .footer__req-title {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(255,255,255,0.3);
+  letter-spacing: 0;
+  color: #fff;
   margin-bottom: 8px !important;
 }
 .footer__requisites p {
-  font-size: 12px;
-  color: rgba(255,255,255,0.4);
-  margin-bottom: 4px !important;
+  font-size: 13px;
+  color: rgba(255,255,255,0.82);
+  margin-bottom: 6px !important;
   line-height: 1.5;
 }
 .footer__address {
@@ -1534,17 +1536,18 @@ a { text-decoration: none; color: inherit; }
 .footer__address svg { flex-shrink: 0; margin-top: 2px; opacity: 0.5; }
 
 .footer__bank {
-  padding: 14px 0;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 16px 18px;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.08);
   margin-bottom: 16px;
-  font-size: 11px;
-  color: rgba(255,255,255,0.25);
+  font-size: 13px;
+  color: rgba(255,255,255,0.82);
   line-height: 1.6;
 }
 .footer__bank-label {
   font-weight: 700;
-  color: rgba(255,255,255,0.35);
+  color: #fff;
   margin-right: 6px;
 }
 
