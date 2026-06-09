@@ -555,6 +555,20 @@ if (priceInput) {
 /* ===========================
    SECTION JUMPS
    =========================== */
+function getSmartScrollTop(target) {
+  const rect = target.getBoundingClientRect();
+  const headerHeight = header ? header.offsetHeight : 0;
+  const gap = 18;
+  const availableHeight = window.innerHeight - headerHeight - gap * 2;
+  const targetTop = rect.top + window.scrollY;
+
+  if (rect.height <= availableHeight) {
+    return Math.max(0, targetTop - headerHeight - gap + (availableHeight - rect.height) / 2);
+  }
+
+  return Math.max(0, targetTop - headerHeight - gap);
+}
+
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
     const target = document.querySelector(this.getAttribute('href'));
@@ -573,12 +587,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         });
         target.classList.add('animated');
         target.classList.add('is-highlighted');
-        window.scrollTo({
-          top: target.getBoundingClientRect().top + window.scrollY - (window.innerHeight / 2) + (target.offsetHeight / 2)
-        });
-      } else {
-        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80 });
       }
+      window.scrollTo({ top: getSmartScrollTop(target) });
     }
   });
 });
