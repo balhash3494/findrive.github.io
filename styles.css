@@ -1131,6 +1131,7 @@ a { text-decoration: none; color: inherit; }
 .success__icon { font-size: 48px; margin-bottom: 16px; }
 .form__success h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
 .form__success p { color: var(--text-light); }
+.form__new-btn { margin-top: 20px; }
 
 /* ===========================
    FOOTER

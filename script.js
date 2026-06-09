@@ -459,11 +459,24 @@ const FORMSPREE_ID = 'maqzjpal';
 
 const submitBtn = document.getElementById('submitBtn');
 const clearFormBtn = document.getElementById('clearFormBtn');
+const newRequestBtn = document.getElementById('newRequestBtn');
 const formSuccess = document.getElementById('formSuccess');
 const contactForm = document.getElementById('contactForm');
 
-if (clearFormBtn && contactForm) {
-  clearFormBtn.addEventListener('click', () => {
+function resetApplicationForm() {
+  if (!contactForm) return;
+
+  contactForm.querySelectorAll('.form__row, .form__group, .form__check, .form__actions').forEach(el => {
+    el.style.display = '';
+  });
+  if (formSuccess) formSuccess.style.display = 'none';
+
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.querySelector('.btn__text').style.display = 'inline';
+    submitBtn.querySelector('.btn__loader').style.display = 'none';
+  }
+
     contactForm.querySelectorAll('input:not([type="hidden"]), textarea').forEach(field => {
       if (field.type === 'checkbox') {
         field.checked = true;
@@ -479,6 +492,16 @@ if (clearFormBtn && contactForm) {
     contactForm.querySelectorAll('.field-error.visible').forEach(error => {
       error.classList.remove('visible');
     });
+}
+
+if (clearFormBtn && contactForm) {
+  clearFormBtn.addEventListener('click', resetApplicationForm);
+}
+
+if (newRequestBtn && contactForm) {
+  newRequestBtn.addEventListener('click', () => {
+    resetApplicationForm();
+    window.scrollTo({ top: getSmartScrollTop(contactForm) });
   });
 }
 
@@ -547,7 +570,7 @@ if (submitBtn) {
         if (!res.ok) throw new Error('Ошибка отправки');
       }
 
-      contactForm.querySelectorAll('.form__row, .form__group, .form__check, button').forEach(el => {
+      contactForm.querySelectorAll('.form__row, .form__group, .form__check, .form__actions').forEach(el => {
         el.style.display = 'none';
       });
       formSuccess.style.display = 'block';
@@ -604,6 +627,9 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       : document.querySelector(href);
     if (target) {
       e.preventDefault();
+      if (href === '#form' && formSuccess && formSuccess.style.display === 'block') {
+        resetApplicationForm();
+      }
       if (this.dataset.property) {
         const propertySelect = document.querySelector('select[name="property_type"]');
         if (propertySelect) {
