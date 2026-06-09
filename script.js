@@ -561,6 +561,12 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     if (target) {
       e.preventDefault();
       window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80 });
+      if (target.classList.contains('service-card')) {
+        document.querySelectorAll('.service-card.is-highlighted').forEach(card => {
+          card.classList.remove('is-highlighted');
+        });
+        target.classList.add('is-highlighted');
+      }
     }
   });
 });

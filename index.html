@@ -196,7 +196,7 @@
       <h2 class="section-title">Широкий спектр<br/><span class="text-gradient">объектов лизинга</span></h2>
     </div>
     <div class="services__grid">
-      <div class="service-card" data-anim="fadeUp" data-delay="0">
+      <div class="service-card" id="service-passenger" data-anim="fadeUp" data-delay="0">
         <div class="service-card__icon">
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
             <rect width="40" height="40" rx="14" fill="url(#s1)"/>
@@ -216,13 +216,14 @@
         <a href="#form" class="service-card__link">Получить предложение →</a>
       </div>
 
-      <div class="service-card service-card--accent" data-anim="fadeUp" data-delay="100">
+      <div class="service-card" id="service-commercial" data-anim="fadeUp" data-delay="100">
         <div class="service-card__icon">
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-            <rect width="40" height="40" rx="14" fill="rgba(255,255,255,0.15)"/>
+            <rect width="40" height="40" rx="14" fill="url(#s-commercial)"/>
             <path d="M6 26h28M8 26l2-10h8l2 4h2l2-4h6l2 10" stroke="#fff" stroke-width="1.5" fill="none"/>
             <circle cx="13" cy="29" r="2" fill="#fff"/>
             <circle cx="27" cy="29" r="2" fill="#fff"/>
+            <defs><linearGradient id="s-commercial" x1="0" y1="0" x2="40" y2="40"><stop stop-color="#1a56db"/><stop offset="1" stop-color="#0e3a9e"/></linearGradient></defs>
           </svg>
         </div>
         <div class="service-card__badge">Популярно</div>
@@ -236,7 +237,7 @@
         <a href="#form" class="service-card__link">Получить предложение →</a>
       </div>
 
-      <div class="service-card" data-anim="fadeUp" data-delay="200">
+      <div class="service-card" id="service-cargo" data-anim="fadeUp" data-delay="200">
         <div class="service-card__icon">
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
             <rect width="40" height="40" rx="14" fill="url(#s2)"/>
@@ -258,7 +259,7 @@
         <a href="#form" class="service-card__link">Получить предложение →</a>
       </div>
 
-      <div class="service-card" data-anim="fadeUp" data-delay="300">
+      <div class="service-card" id="service-special" data-anim="fadeUp" data-delay="300">
         <div class="service-card__icon">
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
             <rect width="40" height="40" rx="14" fill="url(#s3)"/>
@@ -276,7 +277,7 @@
         <a href="#form" class="service-card__link">Получить предложение →</a>
       </div>
 
-      <div class="service-card" data-anim="fadeUp" data-delay="400">
+      <div class="service-card" id="service-equipment" data-anim="fadeUp" data-delay="400">
         <div class="service-card__icon">
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
             <rect width="40" height="40" rx="14" fill="url(#s4)"/>
@@ -873,11 +874,11 @@
       </div>
       <div class="footer__col">
         <h4>Услуги</h4>
-        <a href="#services">Легковой транспорт</a>
-        <a href="#services">Коммерческий транспорт</a>
-        <a href="#services">Грузовой транспорт</a>
-        <a href="#services">Спецтехника</a>
-        <a href="#services">Оборудование</a>
+        <a href="#service-passenger">Легковой транспорт</a>
+        <a href="#service-commercial">Коммерческий транспорт</a>
+        <a href="#service-cargo">Грузовой транспорт</a>
+        <a href="#service-special">Спецтехника</a>
+        <a href="#service-equipment">Оборудование</a>
       </div>
       <div class="footer__col">
         <h4>Компания</h4>
