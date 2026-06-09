@@ -23,7 +23,7 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 }, { passive: true });
-backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+backToTop.addEventListener('click', () => window.scrollTo({ top: 0 }));
 
 /* ===========================
    SCROLL ANIMATIONS
@@ -553,14 +553,14 @@ if (priceInput) {
 }
 
 /* ===========================
-   SMOOTH SCROLL
+   SECTION JUMPS
    =========================== */
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
     const target = document.querySelector(this.getAttribute('href'));
     if (target) {
       e.preventDefault();
-      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80 });
     }
   });
 });
