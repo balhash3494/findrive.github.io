@@ -1505,23 +1505,26 @@ a { text-decoration: none; color: inherit; }
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 18px 24px;
-  background: rgba(96,165,250,0.1);
-  border: 1px solid rgba(96,165,250,0.2);
+  padding: 20px 24px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
   border-radius: var(--radius);
-  font-size: 14px;
-  color: rgba(255,255,255,0.7);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
   line-height: 1.6;
+  box-shadow: var(--shadow);
 }
-.who__note svg { flex-shrink: 0; margin-top: 2px; }
-.who__note strong { color: var(--white); }
+.who__note svg { flex-shrink: 0; margin-top: 2px; color: #f59e0b; }
+.who__note strong { color: var(--dark); }
 .who__note .who__note-accent {
   display: inline;
-  padding: 0 2px 2px;
-  background: linear-gradient(90deg, rgba(96,165,250,0), rgba(96,165,250,0.45), rgba(96,165,250,0)) 0 100% / 100% 2px no-repeat;
-  color: #ffffff;
+  padding: 1px 6px 3px;
+  background: #fef3c7;
+  border-radius: 6px;
+  color: #92400e;
   font-weight: 900;
-  text-shadow: 0 0 18px rgba(96,165,250,0.45);
+  box-shadow: inset 0 -2px 0 rgba(245,158,11,0.35);
 }
 
 /* ===========================
