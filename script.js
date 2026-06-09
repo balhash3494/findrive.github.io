@@ -385,8 +385,8 @@ if (emailInput) {
   emailInput.addEventListener('blur', () => {
     const val = emailInput.value.trim();
     if (val === '') {
-      setFieldState(emailInput, 'neutral');
-      hideError('errEmail');
+      setFieldState(emailInput, 'error');
+      showError('errEmail');
       return;
     }
     if (!emailRegex.test(val)) {
@@ -410,8 +410,11 @@ if (emailInput) {
 /* --- Имя — базовая проверка при blur --- */
 const nameInput = document.getElementById('fieldName');
 if (nameInput) {
+  const nameRegex = /^[A-Za-zА-Яа-яЁё\s-]+$/;
+
   nameInput.addEventListener('blur', () => {
-    if (!nameInput.value.trim()) {
+    const value = nameInput.value.trim();
+    if (!value || !nameRegex.test(value)) {
       setFieldState(nameInput, 'error');
       showError('errName');
     } else {
@@ -420,7 +423,8 @@ if (nameInput) {
     }
   });
   nameInput.addEventListener('input', () => {
-    if (nameInput.value.trim()) {
+    nameInput.value = nameInput.value.replace(/[^A-Za-zА-Яа-яЁё\s-]/g, '');
+    if (nameInput.value.trim() && nameRegex.test(nameInput.value.trim())) {
       setFieldState(nameInput, 'valid');
       hideError('errName');
     }
@@ -454,17 +458,39 @@ function hideError(id) {
 const FORMSPREE_ID = 'meewgrqb';
 
 const submitBtn = document.getElementById('submitBtn');
+const clearFormBtn = document.getElementById('clearFormBtn');
 const formSuccess = document.getElementById('formSuccess');
 const contactForm = document.getElementById('contactForm');
+
+if (clearFormBtn && contactForm) {
+  clearFormBtn.addEventListener('click', () => {
+    contactForm.querySelectorAll('input:not([type="hidden"]), textarea').forEach(field => {
+      if (field.type === 'checkbox') {
+        field.checked = true;
+      } else {
+        field.value = '';
+      }
+      field.classList.remove('field--error', 'field--valid');
+    });
+    contactForm.querySelectorAll('select').forEach(select => {
+      select.selectedIndex = 0;
+      select.classList.remove('field--error', 'field--valid');
+    });
+    contactForm.querySelectorAll('.field-error.visible').forEach(error => {
+      error.classList.remove('visible');
+    });
+  });
+}
 
 if (submitBtn) {
   submitBtn.addEventListener('click', async () => {
     let valid = true;
     const emailRegexFinal = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    const nameRegexFinal = /^[A-Za-zА-Яа-яЁё\s-]+$/;
 
     // Проверка имени
     const nameVal = nameInput ? nameInput.value.trim() : '';
-    if (!nameVal) {
+    if (!nameVal || !nameRegexFinal.test(nameVal)) {
       setFieldState(nameInput, 'error');
       showError('errName');
       valid = false;
@@ -479,9 +505,9 @@ if (submitBtn) {
       valid = false;
     }
 
-    // Проверка email (если заполнен)
+    // Проверка email
     const emailVal = emailInput ? emailInput.value.trim() : '';
-    if (emailVal && !emailRegexFinal.test(emailVal)) {
+    if (!emailVal || !emailRegexFinal.test(emailVal)) {
       setFieldState(emailInput, 'error');
       showError('errEmail');
       valid = false;
@@ -501,7 +527,8 @@ if (submitBtn) {
     const data = {
       name: nameVal,
       phone: phoneInput.value,
-      email: emailVal || '—',
+      email: emailVal,
+      _replyto: emailVal,
       property_type: contactForm.querySelector('select[name="property_type"]').value || '—',
       price: contactForm.querySelector('input[name="price"]').value || '—',
       message: contactForm.querySelector('textarea[name="message"]').value || '—',

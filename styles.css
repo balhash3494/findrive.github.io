@@ -1074,6 +1074,23 @@ a { text-decoration: none; color: inherit; }
 }
 .form__group textarea { resize: vertical; min-height: 90px; }
 
+.form__actions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+.form__actions .btn--primary { width: 100%; }
+.btn--ghost {
+  background: var(--gray-100);
+  color: var(--text);
+  border: 1px solid var(--gray-200);
+}
+.btn--ghost:hover {
+  background: var(--gray-200);
+  transform: translateY(-2px);
+}
+
 .form__check {
   display: flex;
   align-items: flex-start;
@@ -1236,6 +1253,7 @@ a { text-decoration: none; color: inherit; }
   .footer__bottom { flex-direction: column; gap: 12px; text-align: center; }
   .how__step { flex: 1 1 100%; }
   .form__row { grid-template-columns: 1fr; }
+  .form__actions { grid-template-columns: 1fr; }
   .hero__stats { flex-direction: column; gap: 16px; }
   .calc__tabs { flex-direction: column; border-radius: var(--radius); }
   .calc__tab { border-radius: var(--radius-sm); }
