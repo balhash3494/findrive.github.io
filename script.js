@@ -598,7 +598,10 @@ function getSmartScrollTop(target) {
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
-    const target = document.querySelector(this.getAttribute('href'));
+    const href = this.getAttribute('href');
+    const target = href === '#form'
+      ? document.getElementById('contactForm')
+      : document.querySelector(href);
     if (target) {
       e.preventDefault();
       if (this.dataset.property) {
