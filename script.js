@@ -560,12 +560,17 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     const target = document.querySelector(this.getAttribute('href'));
     if (target) {
       e.preventDefault();
-      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80 });
       if (target.classList.contains('service-card')) {
         document.querySelectorAll('.service-card.is-highlighted').forEach(card => {
           card.classList.remove('is-highlighted');
         });
+        target.classList.add('animated');
         target.classList.add('is-highlighted');
+        window.scrollTo({
+          top: target.getBoundingClientRect().top + window.scrollY - (window.innerHeight / 2) + (target.offsetHeight / 2)
+        });
+      } else {
+        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80 });
       }
     }
   });
