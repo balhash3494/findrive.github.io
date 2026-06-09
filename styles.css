@@ -36,6 +36,7 @@
 html {
   scroll-behavior: auto;
   overflow-x: hidden;
+  overscroll-behavior-x: none;
   width: 100%;
 }
 
@@ -46,6 +47,8 @@ body {
   color: var(--text);
   background: var(--white);
   overflow-x: hidden;
+  overscroll-behavior-x: none;
+  touch-action: pan-y;
   width: 100%;
   position: relative;
 }
@@ -1269,6 +1272,10 @@ a { text-decoration: none; color: inherit; }
   .hero__stats { flex-direction: column; gap: 16px; }
   .calc__tabs { flex-direction: column; border-radius: var(--radius); }
   .calc__tab { border-radius: var(--radius-sm); }
+  [data-anim="fadeLeft"],
+  [data-anim="fadeRight"] {
+    transform: translateY(32px);
+  }
   section { padding: 70px 0; }
 }
 
