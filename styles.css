@@ -1519,8 +1519,8 @@ a { text-decoration: none; color: inherit; }
 .who__note strong { color: var(--dark); }
 .who__note .who__note-accent {
   display: inline;
-  padding: 0 1px 3px;
-  background: linear-gradient(90deg, rgba(26,86,219,0), rgba(26,86,219,0.45), rgba(26,86,219,0)) 0 100% / 100% 2px no-repeat;
+  padding: 0;
+  background: none;
   color: var(--blue-700);
   font-weight: 900;
   box-shadow: none;
