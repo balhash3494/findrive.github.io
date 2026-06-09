@@ -33,7 +33,11 @@
   --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-html { scroll-behavior: auto; }
+html {
+  scroll-behavior: auto;
+  overflow-x: hidden;
+  width: 100%;
+}
 
 body {
   font-family: 'Manrope', sans-serif;
@@ -42,6 +46,8 @@ body {
   color: var(--text);
   background: var(--white);
   overflow-x: hidden;
+  width: 100%;
+  position: relative;
 }
 
 .container {
@@ -51,6 +57,12 @@ body {
 }
 
 img { max-width: 100%; display: block; }
+section,
+header,
+footer {
+  max-width: 100%;
+  overflow-x: clip;
+}
 a { text-decoration: none; color: inherit; }
 
 /* ===========================
