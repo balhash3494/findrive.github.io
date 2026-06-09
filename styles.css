@@ -1425,8 +1425,9 @@ a { text-decoration: none; color: inherit; }
 .leasing-diff__col--good li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-weight: 700; }
 
 .broker-role {
-  background: #f8fafc;
-  border: 1px solid var(--gray-200);
+  background: #fff7ed !important;
+  background-image: none !important;
+  border: 1px solid #fed7aa;
   border-radius: var(--radius);
   padding: 20px;
   display: flex;
@@ -1442,18 +1443,19 @@ a { text-decoration: none; color: inherit; }
    =========================== */
 .who {
   padding: 100px 0;
-  background: linear-gradient(135deg, var(--dark), var(--blue-900));
+  background: #f8fafc;
   position: relative;
   overflow: hidden;
 }
 .who__bg { position: absolute; inset: 0; pointer-events: none; }
-.who__orb {
-  position: absolute;
-  width: 600px; height: 600px;
-  top: -200px; right: -150px;
-  background: radial-gradient(circle, rgba(26,86,219,0.35), transparent 70%);
-  border-radius: 50%;
-  filter: blur(80px);
+.who__orb { display: none; }
+
+.who .section-label--light { color: var(--blue-600); }
+.who .section-title--light { color: var(--dark); }
+.who .text-gradient-light {
+  background: linear-gradient(90deg, var(--blue-600), var(--blue-400));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .who__grid {
@@ -1464,17 +1466,17 @@ a { text-decoration: none; color: inherit; }
 }
 
 .who-card {
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: var(--white);
+  border: 1px solid var(--gray-200);
   border-radius: var(--radius-lg);
   padding: 32px;
-  color: var(--white);
+  color: var(--text);
+  box-shadow: var(--shadow);
   transition: var(--transition);
 }
 .who-card:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: rgba(255,255,255,0.2);
+  background: var(--white);
+  border-color: var(--blue-200, #bfdbfe);
   transform: translateY(-6px);
 }
 .who-card--accent {
@@ -1483,11 +1485,11 @@ a { text-decoration: none; color: inherit; }
 }
 .who-card__icon { font-size: 36px; margin-bottom: 16px; display: block; }
 .who-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
-.who-card p { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 20px; }
+.who-card p { font-size: 14px; color: var(--text-light); line-height: 1.7; margin-bottom: 20px; }
 .who-card__list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
 .who-card__list li {
   font-size: 13px;
-  color: rgba(255,255,255,0.75);
+  color: var(--text);
   padding-left: 18px;
   position: relative;
   line-height: 1.4;

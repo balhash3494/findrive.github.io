@@ -560,6 +560,13 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     const target = document.querySelector(this.getAttribute('href'));
     if (target) {
       e.preventDefault();
+      if (this.dataset.property) {
+        const propertySelect = document.querySelector('select[name="property_type"]');
+        if (propertySelect) {
+          propertySelect.value = this.dataset.property;
+          propertySelect.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      }
       if (target.classList.contains('service-card')) {
         document.querySelectorAll('.service-card.is-highlighted').forEach(card => {
           card.classList.remove('is-highlighted');
