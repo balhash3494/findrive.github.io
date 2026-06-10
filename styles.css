@@ -400,27 +400,6 @@ a { text-decoration: none; color: inherit; }
   color: #fff;
   line-height: 1;
 }
-.hero__market-note {
-  max-width: 440px;
-  margin: 14px auto 0;
-  padding: 14px 16px;
-  border-radius: var(--radius-sm);
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.12);
-}
-.hero__market-note span {
-  display: block;
-  margin-bottom: 4px;
-  font-size: 12px;
-  font-weight: 900;
-  color: #93c5fd;
-}
-.hero__market-note p {
-  font-size: 13px;
-  line-height: 1.55;
-  color: rgba(255,255,255,0.68);
-}
-
 /* Hero Visual */
 .hero__visual {
   position: relative;
