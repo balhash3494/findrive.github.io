@@ -251,7 +251,10 @@ a { text-decoration: none; color: inherit; }
    =========================== */
 .hero {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--dark) 0%, var(--blue-800) 50%, var(--dark) 100%);
+  background:
+    radial-gradient(circle at 18% 18%, rgba(96,165,250,0.20), transparent 28%),
+    radial-gradient(circle at 82% 24%, rgba(245,158,11,0.14), transparent 26%),
+    linear-gradient(135deg, #07111f 0%, var(--blue-900) 48%, #0a1929 100%);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -284,8 +287,8 @@ a { text-decoration: none; color: inherit; }
 .hero__grid {
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
   background-size: 60px 60px;
   mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
 }
@@ -310,11 +313,11 @@ a { text-decoration: none; color: inherit; }
   align-items: center;
   gap: 8px;
   padding: 6px 14px;
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.20);
   border-radius: 50px;
   font-size: 13px;
   color: rgba(255,255,255,0.8);
-  background: rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.09);
   backdrop-filter: blur(10px);
   margin-bottom: 24px;
   width: fit-content;
@@ -396,6 +399,26 @@ a { text-decoration: none; color: inherit; }
   font-size: 24px;
   color: #fff;
   line-height: 1;
+}
+.hero__market-note {
+  max-width: 440px;
+  margin: 14px auto 0;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.hero__market-note span {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-weight: 900;
+  color: #93c5fd;
+}
+.hero__market-note p {
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.68);
 }
 
 /* Hero Visual */
@@ -530,6 +553,7 @@ a { text-decoration: none; color: inherit; }
   padding: 110px 0;
   background:
     radial-gradient(circle at 20% 0%, rgba(26,86,219,0.10), transparent 28%),
+    radial-gradient(circle at 90% 20%, rgba(245,158,11,0.10), transparent 24%),
     linear-gradient(180deg, #fff, #f8fafc);
 }
 .broker-promo__hero {
@@ -563,6 +587,18 @@ a { text-decoration: none; color: inherit; }
   border-radius: var(--radius);
   box-shadow: 0 10px 30px rgba(15,23,42,0.06);
   transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.broker-promo__card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 72px;
+  height: 72px;
+  background: linear-gradient(135deg, rgba(26,86,219,0.12), transparent 70%);
+  border-bottom-left-radius: 72px;
 }
 .broker-promo__card:hover {
   transform: translateY(-6px);
@@ -620,7 +656,9 @@ a { text-decoration: none; color: inherit; }
    =========================== */
 .services {
   padding: 100px 0;
-  background: var(--gray-100);
+  background:
+    linear-gradient(180deg, var(--gray-100), #fff),
+    var(--gray-100);
 }
 
 .services__grid {
@@ -637,6 +675,7 @@ a { text-decoration: none; color: inherit; }
   transition: var(--transition);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 12px 34px rgba(15,23,42,0.04);
 }
 .service-card::before {
   content: '';
@@ -649,7 +688,7 @@ a { text-decoration: none; color: inherit; }
 }
 .service-card:hover {
   transform: translateY(-6px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 22px 60px rgba(26,86,219,0.14);
   border-color: var(--blue-200, #bfdbfe);
 }
 .service-card:hover::before { transform: scaleX(1); }
