@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IZHBER Group — Финансовый брокер</title>
-  <link rel="stylesheet" href="styles.css?v=dc4cadb" />
+  <link rel="stylesheet" href="styles.css?v=calc-tax-benefit" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 </head>
@@ -391,12 +391,12 @@
         <div class="calc__field">
           <label class="calc__label">Первоначальный взнос</label>
           <div class="calc__range-wrap">
-            <input type="range" class="calc__range" id="advance" min="0" max="50" step="5" value="20"/>
+            <input type="range" class="calc__range" id="advance" min="0" max="50" step="5" value="10"/>
             <div class="calc__range-track"><div class="calc__range-fill" id="advanceFill"></div></div>
           </div>
           <div class="calc__range-values">
             <span>0%</span>
-            <strong class="calc__value" id="advanceVal">20%</strong>
+            <strong class="calc__value" id="advanceVal">10%</strong>
             <span>50%</span>
           </div>
         </div>
@@ -404,28 +404,16 @@
         <div class="calc__field">
           <label class="calc__label">Срок лизинга</label>
           <div class="calc__range-wrap">
-            <input type="range" class="calc__range" id="term" min="12" max="84" step="12" value="36"/>
+            <input type="range" class="calc__range" id="term" min="6" max="84" step="6" value="36"/>
             <div class="calc__range-track"><div class="calc__range-fill" id="termFill"></div></div>
           </div>
           <div class="calc__range-values">
-            <span>12 мес.</span>
+            <span>6 мес.</span>
             <strong class="calc__value" id="termVal">36 мес.</strong>
             <span>84 мес.</span>
           </div>
         </div>
 
-        <div class="calc__field">
-          <label class="calc__label">Процентная ставка</label>
-          <div class="calc__range-wrap">
-            <input type="range" class="calc__range" id="rate" min="3.5" max="18" step="0.5" value="7"/>
-            <div class="calc__range-track"><div class="calc__range-fill" id="rateFill"></div></div>
-          </div>
-          <div class="calc__range-values">
-            <span>3,5%</span>
-            <strong class="calc__value" id="rateVal">7%</strong>
-            <span>18%</span>
-          </div>
-        </div>
       </div>
 
       <div class="calc__result">
@@ -438,6 +426,20 @@
             <div class="calc__payment">
               <span class="calc__payment-label">Ежемесячный платёж</span>
               <span class="calc__payment-amount" id="monthlyPayment">—</span>
+            </div>
+          </div>
+          <div class="calc__benefit">
+            <div class="calc__benefit-head">
+              <span>Ваша выгода</span>
+              <strong id="taxBenefitTotal">—</strong>
+            </div>
+            <div class="calc__benefit-row">
+              <span>НДС 22%</span>
+              <strong id="vatBenefit">—</strong>
+            </div>
+            <div class="calc__benefit-row">
+              <span>Налог на прибыль</span>
+              <strong id="profitTaxBenefit">—</strong>
             </div>
           </div>
           <div class="calc__result-breakdown">

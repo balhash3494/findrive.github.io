@@ -79,22 +79,30 @@ function updateRange(rangeEl, fillEl, min, max) {
 }
 
 function calcPayment() {
+  const MARKET_RATE = 17;
+  const VAT_RATE = 0.22;
+  const PROFIT_TAX_RATE = 0.25;
   const price = parseFloat(document.getElementById('price').value);
   const advPct = parseFloat(document.getElementById('advance').value);
   const term = parseFloat(document.getElementById('term').value);
-  const rate = parseFloat(document.getElementById('rate').value);
   const adv = price * advPct / 100;
   const body = price - adv;
-  const mr = rate / 100 / 12;
+  const mr = MARKET_RATE / 100 / 12;
   const monthly = mr === 0 ? body / term
     : body * (mr * Math.pow(1 + mr, term)) / (Math.pow(1 + mr, term) - 1);
   const total = adv + monthly * term;
   const overpay = total - price;
+  const vatBenefit = total * VAT_RATE / (1 + VAT_RATE);
+  const profitTaxBenefit = (total - vatBenefit) * PROFIT_TAX_RATE;
+  const taxBenefitTotal = vatBenefit + profitTaxBenefit;
   document.getElementById('monthlyPayment').textContent = formatMoney(monthly) + '/мес.';
   document.getElementById('advanceAmount').textContent = formatMoney(adv);
   document.getElementById('bodyAmount').textContent = formatMoney(body);
   document.getElementById('overpayAmount').textContent = formatMoney(overpay);
   document.getElementById('totalAmount').textContent = formatMoney(total);
+  document.getElementById('taxBenefitTotal').textContent = formatMoney(taxBenefitTotal);
+  document.getElementById('vatBenefit').textContent = formatMoney(vatBenefit);
+  document.getElementById('profitTaxBenefit').textContent = formatMoney(profitTaxBenefit);
   const bodyPct = (body / total) * 100;
   document.getElementById('chartBar1').setAttribute('width', (bodyPct / 100 * 300).toFixed(1));
 }
@@ -102,8 +110,7 @@ function calcPayment() {
 const sliders = [
   { id: 'price', fillId: 'priceFill', valId: 'priceVal', min: 500000, max: 50000000, fmt: v => formatMoneyShort(v) },
   { id: 'advance', fillId: 'advanceFill', valId: 'advanceVal', min: 0, max: 50, fmt: v => v + '%' },
-  { id: 'term', fillId: 'termFill', valId: 'termVal', min: 12, max: 84, fmt: v => v + ' мес.' },
-  { id: 'rate', fillId: 'rateFill', valId: 'rateVal', min: 3.5, max: 18, fmt: v => parseFloat(v).toFixed(1).replace('.0','') + '%' },
+  { id: 'term', fillId: 'termFill', valId: 'termVal', min: 6, max: 84, fmt: v => v + ' мес.' },
 ];
 sliders.forEach(({ id, fillId, valId, min, max, fmt }) => {
   const el = document.getElementById(id);
@@ -119,15 +126,14 @@ document.querySelectorAll('.calc__tab').forEach(tab => {
     document.querySelectorAll('.calc__tab').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
     const presets = {
-      auto:      { price: 5000000, advance: 20, term: 36, rate: 7 },
-      equipment: { price: 3000000, advance: 0,  term: 48, rate: 6.5 },
-      truck:     { price: 8000000, advance: 15, term: 60, rate: 7.5 },
+      auto:      { price: 5000000, advance: 10, term: 36 },
+      equipment: { price: 3000000, advance: 0,  term: 48 },
+      truck:     { price: 8000000, advance: 15, term: 60 },
     };
     const p = presets[tab.dataset.type];
     document.getElementById('price').value = p.price;
     document.getElementById('advance').value = p.advance;
     document.getElementById('term').value = p.term;
-    document.getElementById('rate').value = p.rate;
     sliders.forEach(({ id, fillId, valId, min, max, fmt }) => {
       const el = document.getElementById(id);
       updateRange(el, document.getElementById(fillId), min, max);
